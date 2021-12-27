@@ -13,14 +13,13 @@ export function NavBar() {
   const history = useHistory();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [username, setUsername] = useState("");
-  const [uid, setUid] = useState("");
-  let balance = useContext(UserContext)
+  
+  
   
   auth.onAuthStateChanged((user) => {
     if (user) {
       setIsLoggedIn(true);
       setUsername(user.email);
-      setUid(user.uid)
       
     } else {
       setIsLoggedIn(false);
@@ -74,9 +73,6 @@ export function NavBar() {
               </li>
               <li className="nav-item">
                 <p className="nav-link">{username}</p>
-              </li>
-              <li className="nav-item">
-                <p className="nav-link">{`balance: ${balance}` }</p>
               </li>
               <li className="nav-item">
                 <Link className="nav-link" to="/" onClick={logout} id="logout">

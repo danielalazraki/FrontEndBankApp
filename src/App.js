@@ -17,18 +17,17 @@ export const UserContext = createContext(null);
 
 export function App() {
   const [value, setValue] = useState(null);
-  const [balance, setBalance] = useState(null);
+  
   auth.onAuthStateChanged((user) => {
     if (user) {
       setValue(user);
-      setBalance(getBalance(user.uid))
     } else {
       setValue(null);
     }
   });
 
   return (
-    <UserContext.Provider value={{value}, {balance}}>
+    <UserContext.Provider value={value}>
       <Router>
         <NavBar />
         <Switch>

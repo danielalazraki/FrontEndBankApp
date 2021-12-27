@@ -35,7 +35,17 @@ export const signInWithGoogle = async () => {
       const token = credential.accessToken;
       // The signed-in user info.
       const user = result.user;
-      writeUserData(user, user.email, user.email);
+      const isNewUser = result.additionalUserInfo.isNewUser
+      if(isNewUser){
+        writeUserData(user, user.email, user.email);
+      } else{
+        set(ref(db, "/users/" + user.uid), {
+          id: user.uid,
+          username: user.email,
+          email: user.email,
+          balance: getBalance(user.uid)
+        });
+      }
     })
     .catch((error) => {
       // Handle Errors here.
@@ -109,3 +119,4 @@ export async function getBalance(uid){
   console.log(data);
   return data;
 }
+
