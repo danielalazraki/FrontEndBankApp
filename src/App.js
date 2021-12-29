@@ -17,17 +17,19 @@ export const UserContext = createContext(null);
 
 export function App() {
   const [value, setValue] = useState(null);
-  
-  auth.onAuthStateChanged((user) => {
+  const [balance, setBalance] = useState();
+  auth.onAuthStateChanged(async (user) => {
     if (user) {
       setValue(user);
+      setBalance(await fetchBalance(user));
     } else {
       setValue(null);
     }
-  });
+  })
+
 
   return (
-    <UserContext.Provider value={value}>
+    <UserContext.Provider value={{value, balance}}>
       <Router>
         <NavBar />
         <Switch>
@@ -51,4 +53,9 @@ export function App() {
       </Router>
     </UserContext.Provider>
   );
+}
+
+const fetchBalance = async (user) => {
+  const bal = await getBalance(user.uid);
+  return bal;
 }
