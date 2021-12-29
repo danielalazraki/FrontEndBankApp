@@ -35,17 +35,13 @@ export const signInWithGoogle = async () => {
       const token = credential.accessToken;
       // The signed-in user info.
       const user = result.user;
-      const isNewUser = result.additionalUserInfo.isNewUser
-      if(isNewUser){
+      const creationTime = user.metadata.creationTime;
+      const lastSignIn = user.metadata.lastSignInTime;
+      
+      if(creationTime === lastSignIn){
         writeUserData(user, user.email, user.email);
-      } else{
-        set(ref(db, "/users/" + user.uid), {
-          id: user.uid,
-          username: user.email,
-          email: user.email,
-          balance: getBalance(user.uid)
-        });
-      }
+        console.log(creationTime, lastSignIn)
+      } 
     })
     .catch((error) => {
       // Handle Errors here.
