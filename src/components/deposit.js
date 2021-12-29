@@ -48,7 +48,6 @@ export const config = {
 };
 
 function DepositForm(props) {
-  const [email, setEmail] = useState("");
   const [amount, setAmount] = useState("");
 
   function handle() {
